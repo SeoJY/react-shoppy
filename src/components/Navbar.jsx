@@ -10,18 +10,27 @@ export default function Navbar() {
   const { user, login, logout } = useAuthContext();
 
   return (
-    <header className='flex justify-between border-b border-gray-300 p-2'>
-      <h1>
+    <header
+      id='header'
+      className='flex justify-between border-b border-gray-300 p-2'
+    >
+      <h1 className='logo'>
         <Link to='/' className='flex items-center text-brand'>
           <FiShoppingBag className='text-4xl mr-1' />
           <span className='text-3xl hidden md:block'>Shoppy</span>
         </Link>
       </h1>
-      <nav className='flex items-center gap-4 font-medium'>
-        <Link to='/products'>Products</Link>
-        {user && <Link to='/carts'>Carts</Link>}
+      <nav id='gnb' className='flex items-center gap-4 font-medium'>
+        <Link to='/products' className='hover:text-brand'>
+          Products
+        </Link>
+        {user && (
+          <Link to='/carts' className='hover:text-brand'>
+            Carts
+          </Link>
+        )}
         {user && user.isAdmin && (
-          <Link to='/products/new' className='text-2xl'>
+          <Link to='/products/new' className='text-2xl hover:text-brand'>
             <BsFillPencilFill />
           </Link>
         )}
