@@ -5,6 +5,7 @@ import { BsFillPencilFill } from 'react-icons/bs';
 import { useAuthContext } from '../context/AuthContext';
 import Button from './ui/Button';
 import User from './User';
+import CartStatus from './CartStatus';
 
 export default function Navbar() {
   const { user, login, logout } = useAuthContext();
@@ -26,7 +27,7 @@ export default function Navbar() {
         </Link>
         {user && (
           <Link to='/carts' className='hover:text-brand'>
-            Carts
+            <CartStatus />
           </Link>
         )}
         {user && user.isAdmin && (
