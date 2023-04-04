@@ -9,11 +9,11 @@ export default function CartStatus() {
 
   return (
     <div className='relative'>
-      <AiOutlineShoppingCart className='text-4xl' />
+      <AiOutlineShoppingCart className='text-3xl md:text-4xl' />
       {products && (
-        <p className='absolute w-6 h-6 text-center bg-brand text-white font-bold text-sm rounded-full -top-2 -right-2'>
+        <span className='absolute w-5 h-5 text-center bg-brand text-white text-sm rounded-full -top-2 -right-2 leading-5'>
           {products.length}
-        </p>
+        </span>
       )}
     </div>
   );

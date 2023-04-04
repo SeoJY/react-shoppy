@@ -22,10 +22,10 @@ export default function NewProduct() {
     e.preventDefault();
     setIsUploading(true);
     // 제품의 사진을 Cloudinary에 업로드하고 url을 획득
-    uploadImage(file).then((url) => {
-      // Firebase에 새로운 제품을 추가
-      addProduct
-        .mutate(
+    uploadImage(file)
+      .then((url) => {
+        // Firebase에 새로운 제품을 추가
+        addProduct.mutate(
           { product, url },
           {
             onSuccess: () => {
@@ -35,13 +35,17 @@ export default function NewProduct() {
               }, 4000);
             },
           }
-        )
-        .finally(() => setIsUploading(false));
-    });
+        );
+      })
+      .finally(() => {
+        setIsUploading(false);
+      });
   };
   return (
-    <section className='w-full text-center'>
-      <h2 className='text-2xl font-bold my-4'>새로운 제품 등록</h2>
+    <section className='text-center inner'>
+      <h2 className='text-2xl md:text-4xl font-bold mb-4 md:mb-12'>
+        새로운 제품 등록
+      </h2>
       {success && <p className='my-2'>✅ {success}</p>}
       {file && (
         <img
@@ -98,11 +102,15 @@ export default function NewProduct() {
           required
           onChange={handleChange}
         />
-        <Button
-          text={isUploading ? '등록중' : '제품 등록하기'}
-          onClick={handleSubmit}
-          disabled={isUploading}
-        />
+        <div className='mt-5'>
+          <Button
+            text={isUploading ? '등록중' : '제품 등록하기'}
+            onClick={handleSubmit}
+            disabled={isUploading}
+            size='large'
+            full
+          />
+        </div>
       </form>
     </section>
   );

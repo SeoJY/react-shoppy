@@ -24,21 +24,25 @@ export default function CartItem({
   const handleDelete = () => removeItem.mutate(id);
 
   return (
-    <li className='flex justify-between my-2 items-center'>
-      <img src={image} alt='' className='w-24 md:w-48 rounded-lg' />
+    <li className='flex justify-between my-3 items-center'>
+      <img src={image} alt='' className='w-20 md:w-48 rounded-lg' />
       <div className='flex-1 flex justify-between ml-4'>
         <div className='basis-3/5'>
-          <strong className='block text-xl'>{title}</strong>
-          <span className='block text-gray-400'>option: {option}</span>
-          <span className='block text-lg mt-4'>₩{price}</span>
+          <strong className='block text-sm md:text-xl'>{title}</strong>
+          <span className='block text-sm md:text-lg text-gray-400'>
+            option: {option}
+          </span>
+          <span className='block text-sm md:text-lg md:mt-4'>
+            ₩{price.toLocaleString()}
+          </span>
         </div>
-        <div className='text-3xl flex justify-between items-center'>
+        <div className='text-lg md:text-3xl flex justify-between items-center'>
           <AiOutlineMinusSquare
             onClick={handleMinus}
             className={ICON_CLASS}
             title='빼기'
           />
-          <span className='mx-2 text-xl'>{quantity}</span>
+          <span className='md:mx-2 md:text-xl -mt-1'>{quantity}</span>
           <AiOutlinePlusSquare
             onClick={handlePlus}
             className={ICON_CLASS}

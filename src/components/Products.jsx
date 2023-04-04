@@ -8,15 +8,15 @@ export default function Products() {
   } = useProducts();
 
   return (
-    <>
+    <div className='inner'>
       {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}
-      <ul className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4'>
+      <ul className='grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4'>
         {products &&
           products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
       </ul>
-    </>
+    </div>
   );
 }
