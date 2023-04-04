@@ -6,7 +6,7 @@ export default function useCart() {
   const { uid } = useAuthContext();
   const queryClient = useQueryClient();
 
-  // uid가 null이 아닌 경우에만 cartQuery가 실행되도록 enabled 옵션 사용
+  // uid가 null이 아닌 경우에만 cartQuery가 실행되도록  enabled 옵션 사용
   const cartQuery = useQuery(['carts', uid || ''], () => getCart(uid), {
     enabled: !!uid,
   });
