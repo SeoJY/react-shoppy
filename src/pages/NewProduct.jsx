@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import Button from '../components/ui/Button';
 import { uploadImage } from '../api/uploader';
 import useProducts from '../hooks/useProducts';
+import { useNavigate } from 'react-router-dom';
+import AlertPopup from '../components/ui/AlertPopup';
 
 export default function NewProduct() {
+  const navigate = useNavigate();
   const [product, setProduct] = useState({});
   const [file, setFile] = useState();
   const [isUploading, setIsUploading] = useState(false);
@@ -18,6 +21,10 @@ export default function NewProduct() {
     }
     setProduct((product) => ({ ...product, [name]: value }));
   };
+
+  const handleClose = () => {
+    setSuccess(null);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsUploading(true);
@@ -30,9 +37,6 @@ export default function NewProduct() {
           {
             onSuccess: () => {
               setSuccess('성공적으로 제품이 추가되었습니다.');
-              setTimeout(() => {
-                setSuccess(null);
-              }, 4000);
             },
           }
         );
@@ -46,7 +50,6 @@ export default function NewProduct() {
       <h2 className='text-2xl md:text-4xl font-bold mb-4 md:mb-12'>
         새로운 제품 등록
       </h2>
-      {success && <p className='my-2'>✅ {success}</p>}
       {file && (
         <img
           src={URL.createObjectURL(file)}
@@ -112,6 +115,18 @@ export default function NewProduct() {
           />
         </div>
       </form>
+      {success && (
+        <AlertPopup
+          text={success}
+          onClose={handleClose}
+          button1='계속 등록하기'
+          button2='상품 목록으로 가기'
+          btn1Function={handleClose}
+          btn2Function={() => {
+            navigate('/products');
+          }}
+        />
+      )}
     </section>
   );
 }

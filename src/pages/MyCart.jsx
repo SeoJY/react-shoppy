@@ -9,15 +9,15 @@ import useCart from '../hooks/useCart';
 const SHIPPING = 3000;
 export default function MyCart() {
   const {
-    cartQuery: { isLoading, data: products },
+    cartQuery: { isLoading, data: cartProducts },
   } = useCart();
 
   if (isLoading) return <p>Loading...</p>;
 
-  const hasProducts = products && products.length > 0;
+  const hasProducts = cartProducts && cartProducts.length > 0;
   const totalPrice =
-    products &&
-    products.reduce(
+    cartProducts &&
+    cartProducts.reduce(
       (prev, current) => prev + parseInt(current.price) * current.quantity,
       0
     );
@@ -31,9 +31,9 @@ export default function MyCart() {
       {hasProducts && (
         <>
           <ul className='border-b border-gray-300 mb-5 pb-5 md:mb-10 md:pb-10'>
-            {products &&
-              products.map((product) => (
-                <CartItem key={product.id} product={product} />
+            {cartProducts &&
+              cartProducts.map((product) => (
+                <CartItem key={product.id + product.option} product={product} />
               ))}
           </ul>
           <div className='flex items-center justify-between mb-8 md:px-2 md:px-8 lg:px-16'>

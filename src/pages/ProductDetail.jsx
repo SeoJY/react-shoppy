@@ -1,28 +1,64 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../components/ui/Button';
 import useCart from '../hooks/useCart';
+import AlertPopup from '../components/ui/AlertPopup';
 
 export default function ProductDetail() {
+  const navigate = useNavigate();
   const { addOrUpdateItem } = useCart();
   const {
     state: {
       product: { id, image, title, description, category, price, options },
     },
   } = useLocation();
+
+  const {
+    cartQuery: { data: cartProducts },
+  } = useCart();
+
   const [selected, setSelected] = useState(options && options[0]);
   const [success, setSuccess] = useState();
+
   const handleSelect = (e) => setSelected(e.target.value);
-  const handleClick = (e) => {
-    // 카트 안에 추가
+
+  const handleClick = () => {
     const product = { id, image, title, price, option: selected, quantity: 1 };
-    addOrUpdateItem.mutate(product, {
-      onSuccess: () => {
-        setSuccess('장바구니에 추가되었습니다.');
-        setTimeout(() => setSuccess(null), 3000);
-      },
-    });
+    const isExistingItem = cartProducts.find(
+      (item) => item.id === product.id && item.option === product.option
+    );
+
+    if (isExistingItem) {
+      const newProducts = cartProducts.map((item) => {
+        if (item.id === product.id && item.option === product.option) {
+          return { ...product, quantity: item.quantity + 1 };
+        } else {
+          return item;
+        }
+      });
+
+      const newProduct = newProducts.find(
+        (item) => item.id === product.id && item.option === product.option
+      );
+
+      addOrUpdateItem.mutate(newProduct, {
+        onSuccess: () => {
+          setSuccess('장바구니에 같은 상품이 추가되었습니다.');
+        },
+      });
+    } else {
+      addOrUpdateItem.mutate(product, {
+        onSuccess: () => {
+          setSuccess('장바구니에 추가되었습니다.');
+        },
+      });
+    }
   };
+
+  const handleClose = () => {
+    setSuccess(null);
+  };
+
   return (
     <section className='inner'>
       <p className='text-gray-400'>Category : {category}</p>
@@ -54,10 +90,21 @@ export default function ProductDetail() {
                 ))}
             </select>
           </div>
-          {success && <p className='my-2'>{success}</p>}
           <Button text='장바구니에 추가' onClick={handleClick} size='large' />
         </div>
       </div>
+      {success && (
+        <AlertPopup
+          text={success}
+          onClose={handleClose}
+          button2='계속 쇼핑하기'
+          button1='장바구니로 가기'
+          btn2Function={handleClose}
+          btn1Function={() => {
+            navigate('/carts');
+          }}
+        />
+      )}
     </section>
   );
 }
