@@ -3,8 +3,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../components/ui/Button';
 import useCart from '../hooks/useCart';
 import AlertPopup from '../components/ui/AlertPopup';
+import { useAuthContext } from '../context/AuthContext';
 
 export default function ProductDetail() {
+  const { user } = useAuthContext();
   const navigate = useNavigate();
   const { addOrUpdateItem } = useCart();
   const {
@@ -90,7 +92,9 @@ export default function ProductDetail() {
                 ))}
             </select>
           </div>
-          <Button text='장바구니에 추가' onClick={handleClick} size='large' />
+          {user && (
+            <Button text='장바구니에 추가' onClick={handleClick} size='large' />
+          )}
         </div>
       </div>
       {success && (
