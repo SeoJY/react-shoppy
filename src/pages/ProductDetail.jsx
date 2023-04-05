@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../components/ui/Button';
 import useCart from '../hooks/useCart';
-import AlertPopup from '../components/ui/AlertPopup';
 import { useAuthContext } from '../context/AuthContext';
+import AlertPopup from '../components/ui/AlertPopup';
 
 export default function ProductDetail() {
   const { user } = useAuthContext();
@@ -26,6 +26,8 @@ export default function ProductDetail() {
 
   const handleClick = () => {
     const product = { id, image, title, price, option: selected, quantity: 1 };
+
+    // 상품id와 option이 모두 동일한 경우 수량 추가
     const isExistingItem = cartProducts.find(
       (item) => item.id === product.id && item.option === product.option
     );
