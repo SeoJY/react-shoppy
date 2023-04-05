@@ -1,7 +1,6 @@
 import React from 'react';
 import ProductCard from './ui/ProductCard';
 import useProducts from '../hooks/useProducts';
-import AlertPopup from './ui/AlertPopup';
 
 export default function Products() {
   const {
