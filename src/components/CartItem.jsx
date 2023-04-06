@@ -3,8 +3,8 @@ import { AiOutlineMinusSquare, AiOutlinePlusSquare } from 'react-icons/ai';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import useCart from '../hooks/useCart';
 import AlertPopup from './ui/AlertPopup';
-import { useNavigate } from 'react-router-dom';
 import useProducts from '../hooks/useProducts';
+import useViewTransition from '../hooks/useViewTransition';
 
 const ICON_CLASS =
   'transition-all cursor-pointer hover:text-brand hover:scale-105 mx-1';
@@ -13,7 +13,7 @@ export default function CartItem({
   product,
   product: { id, image, title, option, quantity, price },
 }) {
-  const navigate = useNavigate();
+  const { viewNavigate } = useViewTransition();
   const { addOrUpdateItem, removeItem } = useCart();
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const {
@@ -48,7 +48,9 @@ export default function CartItem({
         onClick={(e) => {
           e.preventDefault();
           console.log(targetProduct);
-          navigate(`../products/${id}`, { state: { product: targetProduct } });
+          viewNavigate(`../products/${id}`, {
+            state: { product: targetProduct },
+          });
         }}
       >
         <img src={image} alt='' className='w-20 md:w-48 rounded-lg' />

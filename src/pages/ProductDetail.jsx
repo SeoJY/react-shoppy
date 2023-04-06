@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Button from '../components/ui/Button';
 import useCart from '../hooks/useCart';
 import { useAuthContext } from '../context/AuthContext';
 import AlertPopup from '../components/ui/AlertPopup';
+import useViewTransition from '../hooks/useViewTransition';
 
 export default function ProductDetail() {
   const { user } = useAuthContext();
-  const navigate = useNavigate();
+  const { viewNavigate } = useViewTransition();
   const { addOrUpdateItem } = useCart();
   const {
     state: {
@@ -107,7 +108,7 @@ export default function ProductDetail() {
           button1='장바구니로 가기'
           btn2Function={handleClose}
           btn1Function={() => {
-            navigate('/carts');
+            viewNavigate('/carts');
           }}
         />
       )}

@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import Button from '../components/ui/Button';
 import { uploadImage } from '../api/uploader';
 import useProducts from '../hooks/useProducts';
-import { useNavigate } from 'react-router-dom';
 import AlertPopup from '../components/ui/AlertPopup';
+import useViewTransition from '../hooks/useViewTransition';
 
 export default function NewProduct() {
-  const navigate = useNavigate();
+  const { viewNavigate } = useViewTransition();
   const [product, setProduct] = useState({});
   const [file, setFile] = useState();
   const [isUploading, setIsUploading] = useState(false);
@@ -24,7 +24,11 @@ export default function NewProduct() {
 
   const handleClose = () => {
     setSuccess(null);
+    setProduct({});
+    setFile(null);
+    setIsUploading(false);
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsUploading(true);
@@ -123,7 +127,7 @@ export default function NewProduct() {
           button2='상품 목록으로 가기'
           btn1Function={handleClose}
           btn2Function={() => {
-            navigate('/products');
+            viewNavigate('/products');
           }}
         />
       )}

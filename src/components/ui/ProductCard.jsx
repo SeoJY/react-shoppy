@@ -1,11 +1,11 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import useViewTransition from '../../hooks/useViewTransition';
 
 export default function ProductCard({
   product,
   product: { id, image, title, category, price },
 }) {
-  const navigate = useNavigate();
+  const { viewNavigate } = useViewTransition();
 
   return (
     <li className='rounded-lg shadow-md overflow-hidden transition-all hover:scale-101'>
@@ -13,7 +13,7 @@ export default function ProductCard({
         href='#none'
         onClick={(e) => {
           e.preventDefault();
-          navigate(`/products/${id}`, { state: { product } });
+          viewNavigate(`/products/${id}`, { state: { product } });
         }}
         className='flex flex-col h-full'
       >
